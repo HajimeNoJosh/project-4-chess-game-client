@@ -6,7 +6,9 @@ import GameForm from './GameForm.js'
 
 const MyGame = (props) => {
   // const [updated, setUpdated] = useState(false)
-  const [game, setGame] = useState({ coords: [] })
+  const [game, setGame] = useState({ coords: ['F3'] })
+  const [currCoord, setCurrCoord] = useState('')
+
   useEffect(() => {
     axios({
       url: `${apiUrl}/games/${props.match.params.id}`,
@@ -24,13 +26,15 @@ const MyGame = (props) => {
 
   const handleChange = event => {
     event.persist()
-    console.log(event.target.value)
-    setGame(game => ({ ...game, coords: [event.target.value] }))
+    // setGame(game => ({ ...game, coords: [event.target.value] }))
+    setCurrCoord(event.target.value)
   }
 
   const handleSubmit = event => {
     event.preventDefault()
-
+    const newCoords = [...game.coords, currCoord]
+    console.log(newCoords)
+    setGame(game => ({ ...game, coords: newCoords }))
     axios({
       url: `${apiUrl}/games/${props.match.params.id}`,
       method: 'PATCH',
@@ -48,12 +52,10 @@ const MyGame = (props) => {
   if (!game) {
     return <p>Loading...</p>
   }
-  console.log(game)
 
   return (
     <div>
       <GameForm
-        game={game}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         cancelPath={`#games/${props.match.params.id}`}

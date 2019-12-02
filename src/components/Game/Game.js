@@ -18,6 +18,7 @@ const Game = (props) => {
         heading: 'You got a game',
         message: 'This is a game',
         variant: 'success'
+
       }))
       .then(res => setGame(res.data.game))
       .catch(console.error)
@@ -42,7 +43,7 @@ const Game = (props) => {
   if (!game) {
     return <p>Loading...</p>
   }
-
+  console.log(game)
   return (
     <div>
       <h4>{game.coords}</h4>

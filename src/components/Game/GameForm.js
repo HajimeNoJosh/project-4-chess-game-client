@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 const GameForm = (props) => {
-  const { game, handleChange, handleSubmit, cancelPath } = props
+  const { handleChange, handleSubmit, cancelPath } = props
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
@@ -13,7 +13,6 @@ const GameForm = (props) => {
             <Form.Label>Coordinate</Form.Label>
             <Form.Control
               placeholder="Enter your move"
-              value={game.coords}
               name="coords"
               onChange={handleChange}
             />
