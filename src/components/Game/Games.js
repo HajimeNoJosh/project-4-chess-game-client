@@ -22,7 +22,7 @@ const Games = props => {
         variant: 'success'
       }))
       .then(res => setGames(res.data.games))
-      .catch(console.error())
+      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
 
   const gamesJsx = games.map(game => (

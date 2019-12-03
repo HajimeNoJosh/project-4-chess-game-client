@@ -21,7 +21,7 @@ const Game = (props) => {
 
       }))
       .then(res => setGame(res.data.game))
-      .catch(console.error)
+      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
 
   const destroy = () => {
@@ -31,7 +31,13 @@ const Game = (props) => {
       headers: { 'Authorization': `Token token=${props.user.token}` }
     })
       .then(() => setDeleted(true))
-      .catch(console.error)
+      .then(props.alert({
+        heading: 'You deleted a game',
+        message: 'This game was deleted',
+        variant: 'success'
+
+      }))
+      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }
 
   if (deleted) {

@@ -1,1 +1,26 @@
 @import '~bootstrap/scss/bootstrap';
+
+.light-square {
+  background-color: rgb(210,180,140);
+}
+
+.dark-square {
+  background-color: rgb(139,69,19);
+}
+
+.square {
+  border: 1px solid white;
+  height: 50px;
+  width: 50px;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}

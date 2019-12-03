@@ -17,7 +17,7 @@ const GameCreate = (props) => {
       .then(response => {
         props.history.push(`/create-game/${response.data.game._id}`)
       })
-      .catch(console.error)
+      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
 
   return (

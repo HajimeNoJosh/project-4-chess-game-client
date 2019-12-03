@@ -3,11 +3,12 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import { withRouter } from 'react-router-dom'
 import GameForm from './GameForm.js'
+import Board from '../Board/Board.js'
 
 const MyGame = (props) => {
   // const [updated, setUpdated] = useState(false)
-  const [game, setGame] = useState({ coords: ['F3'] })
-  const [currCoord, setCurrCoord] = useState('')
+  const [game, setGame] = useState({ coords: [] })
+  // const [currCoord, setCurrCoord] = useState('')
 
   useEffect(() => {
     axios({
@@ -21,20 +22,11 @@ const MyGame = (props) => {
         variant: 'success'
       }))
       .then(res => setGame(res.data.game))
-      .catch(console.error)
+      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
-
-  const handleChange = event => {
-    event.persist()
-    // setGame(game => ({ ...game, coords: [event.target.value] }))
-    setCurrCoord(event.target.value)
-  }
 
   const handleSubmit = event => {
     event.preventDefault()
-    const newCoords = [...game.coords, currCoord]
-    console.log(newCoords)
-    setGame(game => ({ ...game, coords: newCoords }))
     axios({
       url: `${apiUrl}/games/${props.match.params.id}`,
       method: 'PATCH',
@@ -53,10 +45,21 @@ const MyGame = (props) => {
     return <p>Loading...</p>
   }
 
+  const handleClick = (coord) => {
+    let newCoords = ''
+    if (game.coords.length === 0) {
+      newCoords = [...game.coords, coord]
+    } else {
+      newCoords = [...game.coords, ', ' + coord]
+    }
+
+    setGame(game => ({ ...game, coords: newCoords }))
+  }
+
   return (
     <div>
+      <Board onClick={handleClick} />
       <GameForm
-        handleChange={handleChange}
         handleSubmit={handleSubmit}
         cancelPath={`#games/${props.match.params.id}`}
       />
