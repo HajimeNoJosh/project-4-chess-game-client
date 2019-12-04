@@ -111,16 +111,21 @@ const MyGame = (props) => {
   }
 
   const movePiece = function (coord, text) {
-    const aWord = getCoordForOrigBoard(coord, text)
-    const copyOrigBoard = origBoard
-    copyOrigBoard[aWord[0]][aWord[1]] = ' '
-    setOrigBoard(copyOrigBoard)
+    if (checkingForSameColorPieces(text)) {
+      const copyOrigBoard = origBoard
+      setOrigBoard(copyOrigBoard)
+    } else {
+      const aWord = getCoordForOrigBoard(coord, text)
+      const copyOrigBoard = origBoard
+      copyOrigBoard[aWord[0]][aWord[1]] = ' '
+      setOrigBoard(copyOrigBoard)
 
-    const bWord = getSecondCoordForOrigBoard(coord)
-    const copyOrigBoardDesination = origBoard
-    copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
-    setOrigBoard(copyOrigBoardDesination)
-    setInitialCoordText('')
+      const bWord = getSecondCoordForOrigBoard(coord)
+      const copyOrigBoardDesination = origBoard
+      copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
+      setOrigBoard(copyOrigBoardDesination)
+      setInitialCoordText('')
+    }
   }
 
   const changeTurn = function () {
@@ -130,6 +135,14 @@ const MyGame = (props) => {
       setPlayer('W')
     }
     setPlayerOne(!playerOne)
+  }
+
+  const checkingForSameColorPieces = function (text) {
+    if (initialCoordText[0] === text[0]) {
+      return true
+    } else {
+      return false
+    }
   }
 
   const handleClick = (coord, text) => {
@@ -148,12 +161,11 @@ const MyGame = (props) => {
         movePiece(coord, text)
         setInitialCoordText(text)
       }
-    } else {
+    } else if (!checkingForSameColorPieces(text)) {
       changeTurn()
       let newCoords = ''
       setTurn(turn + 1)
       setDestinationCoord(coord)
-      if (destinationCoord !== initialCoord) {}
       console.log('destinationCoord', destinationCoord)
       if (game.coords.length === 0) {
         newCoords = [...game.coords, text + coord]
@@ -162,6 +174,7 @@ const MyGame = (props) => {
       }
       setGame(game => ({ ...game, coords: newCoords }))
       movePiece(coord, text)
+    } else {
     }
   }
 
