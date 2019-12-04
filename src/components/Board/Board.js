@@ -53,7 +53,7 @@ const Board = (props) => {
         key={coord}
         className={squareShade}
         text={text}
-        onClick={() => props.onClick(coord, text) }> </Square>)
+        onClick={() => props.onClick(coord, text, squareShade) }> </Square>)
     }
     board.push(<div key={i}>{squareRows}</div>)
   }

@@ -26,16 +26,19 @@ const MyGame = (props) => {
     ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2'],
     ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1']
   ]
-  // const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   // const [updated, setUpdated] = useState(false)
   const [game, setGame] = useState({ coords: [] })
   // const [currCoord, setCurrCoord] = useState('')
   const [initialCoord, setInitialCoord] = useState('')
   const [initialCoordText, setInitialCoordText] = useState('')
   const [destinationCoord, setDestinationCoord] = useState('')
+  const [initialCoordTextLetter, setInitialCoordTextLetter] = useState('')
+  const [initialCoordNumber, setInitialCoordNumber] = useState('')
   const [turn, setTurn] = useState(1)
   const [playerOne, setPlayerOne] = useState(true)
   const [player, setPlayer] = useState('W')
+  const [initialSquareShade, setInitialSquareShade] = useState('W')
 
   useEffect(() => {
     axios({
@@ -54,14 +57,12 @@ const MyGame = (props) => {
 
   useEffect(() => {
     if (initialCoord.length > 0) {
-      console.log('initialCoord', initialCoord)
       setInitialCoord('')
     }
   }, [initialCoord])
 
   useEffect(() => {
     if (destinationCoord.length > 0) {
-      console.log('destinationCoord', destinationCoord)
       setDestinationCoord('')
     }
   }, [destinationCoord])
@@ -119,12 +120,57 @@ const MyGame = (props) => {
       const copyOrigBoard = origBoard
       copyOrigBoard[aWord[0]][aWord[1]] = ' '
       setOrigBoard(copyOrigBoard)
-
       const bWord = getSecondCoordForOrigBoard(coord)
       const copyOrigBoardDesination = origBoard
       copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
       setOrigBoard(copyOrigBoardDesination)
       setInitialCoordText('')
+    }
+  }
+  const checkPieceDestination = function (text, coord, squareShade) {
+    if (text[2] === 'P') {
+      if (initialCoordTextLetter === coord[0]) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text[2] === 'R') {
+      console.log(initialCoordNumber)
+      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'WhB') {
+      console.log(initialCoordNumber)
+      console.log(coord)
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      console.log('coordNumber', parseInt(coordNumber))
+      console.log('coord[1]', coord[1])
+      console.log('initialCoordNumber', initialCoordNumber)
+      console.log('initialCoordNumber + coordNumber', parseInt(initialCoordNumber) + parseInt(coordNumber))
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'BlB') {
+      console.log(initialCoordNumber)
+      console.log(coord)
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      console.log('coordNumber', parseInt(coordNumber))
+      console.log('coord[1]', coord[1])
+      console.log('initialCoordNumber', initialCoordNumber)
+      console.log('initialCoordNumber + coordNumber', parseInt(initialCoordNumber) + parseInt(coordNumber))
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 
@@ -145,7 +191,7 @@ const MyGame = (props) => {
     }
   }
 
-  const handleClick = (coord, text) => {
+  const handleClick = (coord, text, squareShade) => {
     if (turn % 2 !== 0) {
       if (text[0] === player) {
         let newCoords = ''
@@ -160,27 +206,34 @@ const MyGame = (props) => {
         setGame(game => ({ ...game, coords: newCoords }))
         movePiece(coord, text)
         setInitialCoordText(text)
+        setInitialCoordTextLetter(coord[0])
+        setInitialCoordNumber(coord[1])
+        setInitialSquareShade(squareShade)
       }
     } else if (!checkingForSameColorPieces(text)) {
-      changeTurn()
-      let newCoords = ''
-      setTurn(turn + 1)
-      setDestinationCoord(coord)
-      console.log('destinationCoord', destinationCoord)
-      if (game.coords.length === 0) {
-        newCoords = [...game.coords, text + coord]
+      if (checkPieceDestination(initialCoordText, coord, squareShade)) {
+        setDestinationCoord(coord)
+        console.log('initialCoordTextLetter', initialCoordTextLetter)
+        changeTurn()
+        let newCoords = ''
+        setTurn(turn + 1)
+        if (game.coords.length === 0) {
+          newCoords = [...game.coords, text + coord]
+        } else {
+          newCoords = [...game.coords, ', ' + text + coord]
+        }
+        setGame(game => ({ ...game, coords: newCoords }))
+        movePiece(coord, text)
       } else {
-        newCoords = [...game.coords, ', ' + text + coord]
       }
-      setGame(game => ({ ...game, coords: newCoords }))
-      movePiece(coord, text)
     } else {
+
     }
   }
 
   return (
     <div>
-      <Board text={props.text} onClick={handleClick} origBoard={origBoard} />
+      <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
       <GameForm
         handleSubmit={handleSubmit}
         cancelPath={`#games/${props.match.params.id}`}
