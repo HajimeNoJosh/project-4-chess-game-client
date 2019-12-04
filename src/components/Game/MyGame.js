@@ -32,7 +32,10 @@ const MyGame = (props) => {
   // const [currCoord, setCurrCoord] = useState('')
   const [initialCoord, setInitialCoord] = useState('')
   const [initialCoordText, setInitialCoordText] = useState('')
+  const [destinationCoord, setDestinationCoord] = useState('')
   const [turn, setTurn] = useState(1)
+  const [playerOne, setPlayerOne] = useState(true)
+  const [player, setPlayer] = useState('W')
 
   useEffect(() => {
     axios({
@@ -56,6 +59,13 @@ const MyGame = (props) => {
     }
   }, [initialCoord])
 
+  useEffect(() => {
+    if (destinationCoord.length > 0) {
+      console.log('destinationCoord', destinationCoord)
+      setDestinationCoord('')
+    }
+  }, [destinationCoord])
+
   const handleSubmit = event => {
     event.preventDefault()
     axios({
@@ -75,6 +85,7 @@ const MyGame = (props) => {
   if (!game) {
     return <p>Loading...</p>
   }
+
   const getCoordForOrigBoard = function (firstCoord, text) {
     for (let i = 0; i < coordBoard.length; i++) {
       for (let j = 0; j < coordBoard[i].length; j++) {
@@ -87,33 +98,71 @@ const MyGame = (props) => {
     }
   }
 
-  const movePiece = function (coord, text) {
-    const aWord = getCoordForOrigBoard(coord, text)
-    if (turn % 2 !== 0) {
-      const copyOrigBoard = origBoard
-      copyOrigBoard[aWord[0]][aWord[1]] = ' '
-      setInitialCoordText(text)
-      setOrigBoard(copyOrigBoard)
-    } else {
-      const copyOrigBoard = origBoard
-      copyOrigBoard[aWord[0]][aWord[1]] = initialCoordText
-      setOrigBoard(copyOrigBoard)
+  const getSecondCoordForOrigBoard = function (secondCoord) {
+    for (let i = 0; i < coordBoard.length; i++) {
+      for (let j = 0; j < coordBoard[i].length; j++) {
+        if (secondCoord === coordBoard[i][j]) {
+          const firstBCoordPosition = String(i)
+          const secondBCoordPosition = String(j)
+          return [firstBCoordPosition, secondBCoordPosition]
+        }
+      }
     }
   }
 
-  const handleClick = (coord, text) => {
-    let newCoords = ''
-    setTurn(turn + 1)
-    console.log(turn)
-    setInitialCoord(coord)
-    // console.log('destinationCoord', destinationCoord)
-    if (game.coords.length === 0) {
-      newCoords = [...game.coords, text + coord]
+  const movePiece = function (coord, text) {
+    const aWord = getCoordForOrigBoard(coord, text)
+    const copyOrigBoard = origBoard
+    copyOrigBoard[aWord[0]][aWord[1]] = ' '
+    setOrigBoard(copyOrigBoard)
+
+    const bWord = getSecondCoordForOrigBoard(coord)
+    const copyOrigBoardDesination = origBoard
+    copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
+    setOrigBoard(copyOrigBoardDesination)
+    setInitialCoordText('')
+  }
+
+  const changeTurn = function () {
+    if (playerOne) {
+      setPlayer('B')
     } else {
-      newCoords = [...game.coords, ', ' + text + coord]
+      setPlayer('W')
     }
-    setGame(game => ({ ...game, coords: newCoords }))
-    movePiece(coord, text)
+    setPlayerOne(!playerOne)
+  }
+
+  const handleClick = (coord, text) => {
+    if (turn % 2 !== 0) {
+      if (text[0] === player) {
+        let newCoords = ''
+        setTurn(turn + 1)
+        setInitialCoord(coord)
+        // console.log('destinationCoord', destinationCoord)
+        if (game.coords.length === 0) {
+          newCoords = [...game.coords, text + coord]
+        } else {
+          newCoords = [...game.coords, ', ' + text + coord]
+        }
+        setGame(game => ({ ...game, coords: newCoords }))
+        movePiece(coord, text)
+        setInitialCoordText(text)
+      }
+    } else {
+      changeTurn()
+      let newCoords = ''
+      setTurn(turn + 1)
+      setDestinationCoord(coord)
+      if (destinationCoord !== initialCoord) {}
+      console.log('destinationCoord', destinationCoord)
+      if (game.coords.length === 0) {
+        newCoords = [...game.coords, text + coord]
+      } else {
+        newCoords = [...game.coords, ', ' + text + coord]
+      }
+      setGame(game => ({ ...game, coords: newCoords }))
+      movePiece(coord, text)
+    }
   }
 
   return (
