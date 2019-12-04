@@ -31,17 +31,39 @@ const Board = (props) => {
         num = 8
       }
 
+      const text = props.origBoard[j][i]
+      // if (isTwo(coord[1]) || isSeven(coord[1])) {
+      //   text = 'P'
+      // } else if (coord === 'A8' || coord === 'H8' || coord === 'A1' || coord === 'H1') {
+      //   text = 'R'
+      // } else if (coord === 'B8' || coord === 'G8' || coord === 'B1' || coord === 'G1') {
+      //   text = 'N'
+      // } else if (coord === 'C8' || coord === 'F8' || coord === 'C1' || coord === 'F1') {
+      //   text = 'B'
+      // } else if (coord === 'E8' || coord === 'E1') {
+      //   text = 'K'
+      // } else if (coord === 'D8' || coord === 'D1') {
+      //   text = 'Q'
+      // } else {
+      //   text = ''
+      // }
+
       squareRows.push(<Square
         id={coord}
         key={coord}
         className={squareShade}
-        onClick={() => props.onClick(coord) } />)
+        text={text}
+        onClick={() => props.onClick(coord, text) }> </Square>)
     }
     board.push(<div key={i}>{squareRows}</div>)
   }
 
+  // const changeText = function (coord, text) {
+  //   console.log(coord)
+  // }
+
   return (
-    <div className = 'game'>
+    <div className='game' text={props.text}>
       {board}
     </div>
   )

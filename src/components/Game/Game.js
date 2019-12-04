@@ -6,7 +6,7 @@ import apiUrl from '../../apiConfig'
 const Game = (props) => {
   const [game, setGame] = useState(null)
   const [deleted, setDeleted] = useState(false)
-  // const userId = props.user._id
+  const userId = props.user._id
 
   useEffect(() => {
     axios({
@@ -53,7 +53,7 @@ const Game = (props) => {
   return (
     <div>
       <h4>{game.coords}</h4>
-      {<button className='btn btn-danger' onClick={destroy}> Delete </button>}
+      {userId === game.owner && <button className='btn btn-danger' onClick={destroy}> Delete </button>}
     </div>
   )
 }
