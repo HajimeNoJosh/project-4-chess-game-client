@@ -176,16 +176,15 @@ const MyGame = (props) => {
       if (origBoard[firstCoord][secondCoord] !== ' ' && initialCoordTextLetter === coord[0]) {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'W') {
+        setInitialCoord(coord)
         return true
       } else {
-        if (initialCoordTextLetter === coord[0]) {
-          if (parseInt(coord[1]) === 5 && parseInt(initialCoordNumber) - 2 === parseInt(coord[1])) {
-            return true
-          } else if (parseInt(initialCoordNumber) - 1 === parseInt(coord[1])) {
-            return true
-          } else {
-            return false
-          }
+        if (parseInt(coord[1]) === 5 && parseInt(initialCoordNumber) - 2 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
+          return true
+        } else if (parseInt(initialCoordNumber) - 1 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
+          return true
+        } else {
+          return false
         }
       }
     } else if (text[2] === 'R') {
