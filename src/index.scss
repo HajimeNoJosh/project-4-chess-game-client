@@ -27,3 +27,62 @@
   display: flex;
   justify-content: center;
 }
+
+.piece {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-size: 3rem;
+  background-repeat: no-repeat;
+}
+
+.WhR {
+  background-image: url('./images/WhR.png');
+}
+
+.BlR {
+
+  background-image: url('./images/BlR.png');
+}
+
+.WhP {
+
+  background-image: url('./images/WhP.png');
+}
+
+.BlP {
+
+  background-image: url('./images/BlP.png');
+}
+
+.WhK {
+  background-image: url('./images/WhK.png');
+}
+
+.BlK {
+  background-image: url('./images/BlK.png');
+}
+
+.WhQ {
+  background-image: url('./images/WhQ.png');
+}
+
+.BlQ {
+  background-image: url('./images/BlQ.png');
+}
+
+.WhB {
+  background-image: url('./images/WhB.png');
+}
+
+.BlB {
+  background-image: url('./images/BlB.png');
+}
+
+.WhN {
+  background-image: url('./images/WhN.png');
+}
+
+.BlN {
+  background-image: url('./images/BlN.png');
+}
