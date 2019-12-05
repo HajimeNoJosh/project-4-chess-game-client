@@ -30,9 +30,9 @@ on a piece.
 When I was able to do this, I began to work on logic for chess, and this is where
 the project currently stands. It is lacking in some of the fundamental rules of chess.
   1. Pieces can jump other pieces (of course Knight will still able to when I do program this)
-  2. Pawns cannot take other pawns diagonally
-  3. On a similar note Pawns need to be able to move either one or two on first move
-and then only one from there
+  ~2. Pawns cannot take other pawns diagonally~
+  ~3. On a similar note Pawns need to be able to move either one or two on first move
+and then only one from there~
   4. Promotion should be taken into account
   5. Checks/Checkmate
 
