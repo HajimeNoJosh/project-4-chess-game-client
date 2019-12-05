@@ -128,22 +128,34 @@ const MyGame = (props) => {
     }
   }
   const checkPieceDestination = function (text, coord, squareShade) {
-    if (text[2] === 'P') {
-      if (initialCoordTextLetter === coord[0]) {
+    if (text === 'WhP') {
+      // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // console.log(coord[1], 'coord[0]')
+      // console.log(initialCoordNumber, 'initialCoordNumber')
+      if (initialCoordTextLetter === coord[0] && parseInt(initialCoordNumber) + 2 === parseInt(coord[1])) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'BlP') {
+      // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // console.log(coord[1], 'coord[0]')
+      // console.log(initialCoordNumber, 'initialCoordNumber')
+      if (initialCoordTextLetter === coord[0] && parseInt(initialCoordNumber) - 2 === parseInt(coord[1])) {
         return true
       } else {
         return false
       }
     } else if (text[2] === 'R') {
-      console.log(initialCoordNumber)
+      // console.log(initialCoordNumber)
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
         return true
       } else {
         return false
       }
     } else if (text === 'WhB') {
-      console.log(initialCoordNumber)
-      console.log(coord)
+      // console.log(initialCoordNumber)
+      // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
@@ -153,8 +165,8 @@ const MyGame = (props) => {
         return false
       }
     } else if (text === 'BlB') {
-      console.log(initialCoordNumber)
-      console.log(coord)
+      // console.log(initialCoordNumber)
+      // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
@@ -188,36 +200,36 @@ const MyGame = (props) => {
         return false
       }
     } else if (text === 'WhK') {
-      // const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-      // const endAlphabetGoal = alphabet.indexOf(coord[0])
-      // const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + 1 && squareShade === initialSquareShade) {
-        return true
-      }
-      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber + 1) {
-        return true
-      } else {
-        return false
-      }
-    } else if (text === 'BlK') {
-      // const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-      // const endAlphabetGoal = alphabet.indexOf(coord[0])
-      // const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - 1 && squareShade === initialSquareShade) {
-        return true
-      }
-      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber - 1) {
-        return true
-      } else {
-        return false
-      }
-    } else if (text[2] === 'N') {
-      console.log(initialCoordNumber)
-      console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      console.log('coordNumber', coordNumber)
+      console.log(coordNumber)
+      console.log(coord[0])
+      console.log(coord[1])
+      console.log(initialCoordNumber)
+      if (coordNumber === 1 || coordNumber === 0) {
+        if (Math.abs(coord[1] - initialCoordNumber) === 1 || Math.abs(coord[1] - initialCoordNumber) === 0) {
+          return true
+        }
+      }
+      // if (parseInt(initialCoordNumber) + 1 === parseInt(coord[1]) || parseInt(initialCoordNumber) - 1 === parseInt(coord[1])) {
+      //   return true
+      // } else {
+      //   return false
+      // }
+    } else if (text === 'BlK') {
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      if (coordNumber === 1 || coordNumber === 0) {
+        if (Math.abs(coord[1] - initialCoordNumber) === 1 || Math.abs(coord[1] - initialCoordNumber) === 0) {
+          return true
+        }
+      }
+    } else if (text[2] === 'N') {
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       if (coordNumber === 2) {
         if (parseInt(coord[1]) === parseInt(initialCoordNumber) - 1 || parseInt(coord[1]) === parseInt(initialCoordNumber) + 1) {
           return true
@@ -273,7 +285,6 @@ const MyGame = (props) => {
     } else if (!checkingForSameColorPieces(text)) {
       if (checkPieceDestination(initialCoordText, coord, squareShade)) {
         setDestinationCoord(coord)
-        console.log('initialCoordTextLetter', initialCoordTextLetter)
         changeTurn()
         let newCoords = ''
         setTurn(turn + 1)

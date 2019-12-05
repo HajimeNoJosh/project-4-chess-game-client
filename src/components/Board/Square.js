@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Square = (props) => {
-  console.log(props.text)
   return (
     <div
       className={'square ' + props.className + ' ' + props.text + ' piece'}
