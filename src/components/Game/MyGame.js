@@ -54,7 +54,7 @@ const MyGame = (props) => {
         variant: 'success'
       }))
       .then(res => setGame(res.data.game))
-      .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
+      .catch(() => props.alert({ heading: 'Could not get game', message: 'Unfortunate circumstances', variant: 'danger' }))
   }, [])
 
   useEffect(() => {

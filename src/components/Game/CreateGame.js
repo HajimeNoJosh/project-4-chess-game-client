@@ -14,6 +14,11 @@ const GameCreate = (props) => {
       data: { game },
       headers: { 'Authorization': `Token token=${props.user.token}` }
     })
+      .then(props.alert({
+        heading: 'You made a game',
+        message: 'This is now your game',
+        variant: 'success'
+      }))
       .then(response => {
         props.history.push(`/game/${response.data.game._id}`)
       })
