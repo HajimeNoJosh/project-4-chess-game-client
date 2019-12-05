@@ -1,5 +1,5 @@
 # Project-4-chess-game-client
-![Website](./public/screenshot.jpg)
+![Website](https://i.imgur.com/iTFc4hk.jpg)
 
 [API](https://stark-citadel-18124.herokuapp.com)
 
