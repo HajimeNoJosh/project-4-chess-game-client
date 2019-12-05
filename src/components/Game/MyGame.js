@@ -147,10 +147,6 @@ const MyGame = (props) => {
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      console.log('coordNumber', parseInt(coordNumber))
-      console.log('coord[1]', coord[1])
-      console.log('initialCoordNumber', initialCoordNumber)
-      console.log('initialCoordNumber + coordNumber', parseInt(initialCoordNumber) + parseInt(coordNumber))
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else {
@@ -162,14 +158,78 @@ const MyGame = (props) => {
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      console.log('coordNumber', parseInt(coordNumber))
-      console.log('coord[1]', coord[1])
-      console.log('initialCoordNumber', initialCoordNumber)
-      console.log('initialCoordNumber + coordNumber', parseInt(initialCoordNumber) + parseInt(coordNumber))
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else {
         return false
+      }
+    } else if (text === 'WhQ') {
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
+      }
+      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'BlQ') {
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
+      }
+      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'WhK') {
+      // const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      // const endAlphabetGoal = alphabet.indexOf(coord[0])
+      // const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + 1 && squareShade === initialSquareShade) {
+        return true
+      }
+      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber + 1) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text === 'BlK') {
+      // const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      // const endAlphabetGoal = alphabet.indexOf(coord[0])
+      // const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - 1 && squareShade === initialSquareShade) {
+        return true
+      }
+      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber - 1) {
+        return true
+      } else {
+        return false
+      }
+    } else if (text[2] === 'N') {
+      console.log(initialCoordNumber)
+      console.log(coord)
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      console.log('coordNumber', coordNumber)
+      if (coordNumber === 2) {
+        if (parseInt(coord[1]) === parseInt(initialCoordNumber) - 1 || parseInt(coord[1]) === parseInt(initialCoordNumber) + 1) {
+          return true
+        } else {
+          return false
+        }
+      } else if (coordNumber === 1) {
+        if (parseInt(coord[1]) === parseInt(initialCoordNumber) - 2 || parseInt(coord[1]) === parseInt(initialCoordNumber) + 2) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }

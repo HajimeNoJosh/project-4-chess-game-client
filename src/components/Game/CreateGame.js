@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import { Redirect } from 'react-router-dom'
 import axios from 'axios'
-import { withRouter, Switch } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import apiUrl from '../../apiConfig'
 
 const GameCreate = (props) => {
@@ -15,14 +15,14 @@ const GameCreate = (props) => {
       headers: { 'Authorization': `Token token=${props.user.token}` }
     })
       .then(response => {
-        props.history.push(`/create-game/${response.data.game._id}`)
+        props.history.push(`/game/${response.data.game._id}`)
       })
       .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
 
   return (
-    <Switch>
-    </Switch>
+    <div>
+    </div>
   )
 }
 

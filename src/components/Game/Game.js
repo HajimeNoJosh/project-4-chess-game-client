@@ -49,7 +49,6 @@ const Game = (props) => {
   if (!game) {
     return <p>Loading...</p>
   }
-  console.log(game)
   return (
     <div>
       <h4>{game.coords}</h4>

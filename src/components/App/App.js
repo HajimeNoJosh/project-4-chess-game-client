@@ -19,7 +19,8 @@ class App extends Component {
 
     this.state = {
       user: null,
-      alerts: []
+      alerts: [],
+      showCreateButton: true
     }
   }
 
@@ -36,7 +37,7 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header user={user} />
+        <Header user={user} showCreateButton={this.state.showCreateButton}/>
         {alerts.map((alert, index) => (
           <AutoDismissAlert
             key={index}
@@ -67,7 +68,7 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/create-game' render={() => (
             <CreateGame alert={this.alert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/create-game/:id' render={() => (
+          <AuthenticatedRoute user={user} path='/game/:id' render={() => (
             <MyGame alert={this.alert} user={user} />
           )} />
         </main>
