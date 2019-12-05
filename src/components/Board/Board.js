@@ -59,7 +59,7 @@ const Board = (props) => {
   }
 
   // const changeText = function (coord, text) {
-  //   console.log(coord)
+  //   // console.log(coord)
   // }
 
   return (

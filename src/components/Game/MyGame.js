@@ -39,6 +39,8 @@ const MyGame = (props) => {
   const [playerOne, setPlayerOne] = useState(true)
   const [player, setPlayer] = useState('W')
   const [initialSquareShade, setInitialSquareShade] = useState('W')
+  const [gameOver, setGameOver] = useState(false)
+  const [updated, setUpdated] = useState(false)
 
   useEffect(() => {
     axios({
@@ -130,25 +132,31 @@ const MyGame = (props) => {
     if (initialCoordTextLetter + initialCoordNumber === coord) {
       return true
     }
+    const origBoardCoord = getCoordForOrigBoard(coord)
+    const firstCoord = origBoardCoord[0]
+    const secondCoord = origBoardCoord[1]
+    if (origBoard[firstCoord][secondCoord][2] === 'K') {
+      setGameOver(true)
+    }
     if (text === 'WhP') {
-      // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
-      // console.log(coord[1], 'coord[1]')
-      // console.log(initialCoordNumber, 'initialCoordNumber')
+      // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // // console.log(coord[1], 'coord[1]')
+      // // console.log(initialCoordNumber, 'initialCoordNumber')
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       const letterNumberInitial = initialCoordTextLetter + initialCoordNumber
       const numberInital = Math.abs(letterNumberInitial[1] - coord[1])
-      console.log(coord)
+      // console.log(coord)
       const origBoardCoord = getCoordForOrigBoard(coord)
       const firstCoord = origBoardCoord[0]
       const secondCoord = origBoardCoord[1]
-      console.log(origBoard[firstCoord][secondCoord])
+      // console.log(origBoard[firstCoord][secondCoord])
       if (origBoard[firstCoord][secondCoord] !== ' ' && initialCoordTextLetter === coord[0]) {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'B') {
         setInitialCoord(coord)
-        console.log(initialCoord, 'initialCoord')
+        // console.log(initialCoord, 'initialCoord')
         return true
       } else {
         if (parseInt(coord[1]) === 4 && parseInt(initialCoordNumber) + 2 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
@@ -160,19 +168,19 @@ const MyGame = (props) => {
         }
       }
     } else if (text === 'BlP') {
-      // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
-      // console.log(coord[1], 'coord[1]')
-      // console.log(initialCoordNumber, 'initialCoordNumber')
+      // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // // console.log(coord[1], 'coord[1]')
+      // // console.log(initialCoordNumber, 'initialCoordNumber')
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       const letterNumberInitial = initialCoordTextLetter + initialCoordNumber
       const numberInital = Math.abs(letterNumberInitial[1] - coord[1])
-      console.log(coord)
+      // console.log(coord)
       const origBoardCoord = getCoordForOrigBoard(coord)
       const firstCoord = origBoardCoord[0]
       const secondCoord = origBoardCoord[1]
-      console.log(origBoard[firstCoord][secondCoord])
+      // console.log(origBoard[firstCoord][secondCoord])
       if (origBoard[firstCoord][secondCoord] !== ' ' && initialCoordTextLetter === coord[0]) {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'W') {
@@ -188,15 +196,15 @@ const MyGame = (props) => {
         }
       }
     } else if (text[2] === 'R') {
-      // console.log(initialCoordNumber)
+      // // console.log(initialCoordNumber)
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
         return true
       } else {
         return false
       }
     } else if (text === 'WhB') {
-      // console.log(initialCoordNumber)
-      // console.log(coord)
+      // // console.log(initialCoordNumber)
+      // // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
@@ -229,8 +237,8 @@ const MyGame = (props) => {
         return false
       }
     } else if (text === 'BlB') {
-      // console.log(initialCoordNumber)
-      // console.log(coord)
+      // // console.log(initialCoordNumber)
+      // // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
@@ -331,7 +339,7 @@ const MyGame = (props) => {
         let newCoords = ''
         setTurn(turn + 1)
         setInitialCoord(coord)
-        // console.log('destinationCoord', destinationCoord)
+        // // console.log('destinationCoord', destinationCoord)
         if (game.coords.length === 0) {
           newCoords = [...game.coords, text + coord]
         } else {
@@ -425,16 +433,41 @@ const MyGame = (props) => {
   //     }
   //   }
   // }
+  const gameOverJsx = function () {
+    if (gameOver === false) {
+      return <div>
+        <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
+        <GameForm
+          handleSubmit={handleSubmit}
+          cancelPath={`#games/${props.match.params.id}`}
+        />
+        {game.coords}
+        <h4>If Piece should not have been picked up, put it back down and do the same for the enemy team. Now continue the game.</h4>
+        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT! Pawn promotions are not a thing at this time Tune in later</h6>
+      </div>
+    } else {
+      if (updated === false) {
+        axios({
+          url: `${apiUrl}/games/${props.match.params.id}`,
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${props.user.token}`
+          },
+          data: { game }
+        })
+          .then(response => {
+            props.alert({ heading: 'Success', message: 'You updated a game', variant: 'success' })
+          })
+          .then(() => setUpdated(true))
+          .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
+      }
+      return <h1> Game Over! </h1>
+    }
+  }
 
   return (
     <div>
-      <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
-      <GameForm
-        handleSubmit={handleSubmit}
-        cancelPath={`#games/${props.match.params.id}`}
-      />
-      {game.coords}
-      <h4>If Piece should not have been picked up, put it back down and do the same for the enemy team. Now continue the game</h4>
+      {gameOverJsx()}
     </div>
   )
 }
