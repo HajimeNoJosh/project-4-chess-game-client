@@ -255,6 +255,8 @@ const MyGame = (props) => {
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
+      } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
       }
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
         return true
@@ -266,6 +268,8 @@ const MyGame = (props) => {
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        return true
+      } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       }
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
