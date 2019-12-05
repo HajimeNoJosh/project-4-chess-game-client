@@ -117,15 +117,39 @@ const MyGame = (props) => {
     //   const copyOrigBoard = origBoard
     //   setOrigBoard(copyOrigBoard)
     // } else {
-    const aWord = getCoordForOrigBoard(coord, text)
-    const copyOrigBoard = origBoard
-    copyOrigBoard[aWord[0]][aWord[1]] = ' '
-    setOrigBoard(copyOrigBoard)
-    const bWord = getSecondCoordForOrigBoard(coord)
-    const copyOrigBoardDesination = origBoard
-    copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
-    setOrigBoard(copyOrigBoardDesination)
-    setInitialCoordText(' ')
+    console.log(initialCoordText)
+    console.log(coord[1])
+    if (parseInt(coord[1]) === 8 && initialCoordText === 'WhP') {
+      const aWord = getCoordForOrigBoard(coord, text)
+      const copyOrigBoard = origBoard
+      copyOrigBoard[aWord[0]][aWord[1]] = ' '
+      setOrigBoard(copyOrigBoard)
+      const bWord = getSecondCoordForOrigBoard(coord)
+      const copyOrigBoardDesination = origBoard
+      copyOrigBoardDesination[bWord[0]][bWord[1]] = 'WhQ'
+      setOrigBoard(copyOrigBoardDesination)
+      setInitialCoordText(' ')
+    } else if (parseInt(coord[1]) === 1 && initialCoordText === 'BlP') {
+      const aWord = getCoordForOrigBoard(coord, text)
+      const copyOrigBoard = origBoard
+      copyOrigBoard[aWord[0]][aWord[1]] = ' '
+      setOrigBoard(copyOrigBoard)
+      const bWord = getSecondCoordForOrigBoard(coord)
+      const copyOrigBoardDesination = origBoard
+      copyOrigBoardDesination[bWord[0]][bWord[1]] = 'BlQ'
+      setOrigBoard(copyOrigBoardDesination)
+      setInitialCoordText(' ')
+    } else {
+      const aWord = getCoordForOrigBoard(coord, text)
+      const copyOrigBoard = origBoard
+      copyOrigBoard[aWord[0]][aWord[1]] = ' '
+      setOrigBoard(copyOrigBoard)
+      const bWord = getSecondCoordForOrigBoard(coord)
+      const copyOrigBoardDesination = origBoard
+      copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
+      setOrigBoard(copyOrigBoardDesination)
+      setInitialCoordText(' ')
+    }
     // }
   }
   const checkPieceDestination = function (text, coord, squareShade) {
@@ -447,7 +471,7 @@ const MyGame = (props) => {
         />
         {game.coords}
         <h4>If Piece should not have been picked up, put it back down and do the same for the enemy team. Now continue the game.</h4>
-        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT! Pawn promotions are not a thing at this time Tune in later</h6>
+        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT! Pawn promotions are only to queen at the moment</h6>
       </div>
     } else {
       if (updated === false) {
