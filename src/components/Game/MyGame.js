@@ -113,12 +113,6 @@ const MyGame = (props) => {
   }
 
   const movePiece = function (coord, text) {
-    // if (checkingForSameColorPieces(text)) {
-    //   const copyOrigBoard = origBoard
-    //   setOrigBoard(copyOrigBoard)
-    // } else {
-    console.log(initialCoordText)
-    console.log(coord[1])
     if (parseInt(coord[1]) === 8 && initialCoordText === 'WhP') {
       const aWord = getCoordForOrigBoard(coord, text)
       const copyOrigBoard = origBoard
@@ -141,10 +135,12 @@ const MyGame = (props) => {
       setInitialCoordText(' ')
     } else {
       const aWord = getCoordForOrigBoard(coord, text)
+      // console.log('aWord', aWord)
       const copyOrigBoard = origBoard
       copyOrigBoard[aWord[0]][aWord[1]] = ' '
       setOrigBoard(copyOrigBoard)
       const bWord = getSecondCoordForOrigBoard(coord)
+      // console.log('bWord', bWord)
       const copyOrigBoardDesination = origBoard
       copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
       setOrigBoard(copyOrigBoardDesination)
@@ -232,12 +228,15 @@ const MyGame = (props) => {
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-      // const whichToUse = endAlphabetGoal - beginingAlphabetGoal
-      // if (setInitialCoordNumber > coord[1] && whichToUse > 0) {
-      //   if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
-      //     return false
-      //   }
+      // if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
+      //   return false
       // }
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
+      if (setInitialCoordNumber > coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
       // if (setInitialCoordNumber > coord[1] && whichToUse > 0) {
       //   if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
       //     return false
@@ -362,6 +361,7 @@ const MyGame = (props) => {
   }
 
   const handleClick = (coord, text, squareShade) => {
+    // console.log(coord)
     if (turn % 2 !== 0) {
       if (text[0] === player) {
         let newCoords = ''
@@ -383,37 +383,51 @@ const MyGame = (props) => {
     } else if (!checkingForSameColorPieces(text)) {
       if (checkPieceDestination(initialCoordText, coord, squareShade)) {
         setDestinationCoord(coord)
-        changeTurn()
+
+        if (initialCoord !== coord) {
+          changeTurn()
+          setTurn(turn + 1)
+        } else {
+          setTurn(turn - 1)
+          setInitialCoordText('')
+          setInitialCoordTextLetter('')
+          setInitialCoordNumber('')
+          setInitialSquareShade('')
+        }
         let newCoords = ''
-        setTurn(turn + 1)
+
         if (game.coords.length === 0) {
           newCoords = [...game.coords, text + coord]
         } else {
           newCoords = [...game.coords, ', ' + text + coord]
         }
+        if (initialCoord === coord) {
+          newCoords.pop()
+          newCoords.pop()
+        }
         setGame(game => ({ ...game, coords: newCoords }))
         movePiece(coord, text)
-      } else {
       }
-    } else {
     }
   }
-  // const checkingForPiecesAlongPathToDestinationRightForwardDiagonal = function (coord, text) {
-  //   const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-  //   const endAlphabetGoal = alphabet.indexOf(coord[0])
-  //   const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-  //   const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
-  //   const coords = getCoordForOrigBoard(firstCoordPosition)
-  //   for (let i = 1; i < coordNumber; i++) {
-  //     const checkingForPieceColor = origBoard[parseInt(coords[0]) - i][parseInt(coords[1]) + i]
-  //     if (text[0] === checkingForPieceColor[0]) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
-  // }
-  //
+  const checkingForPiecesAlongPathToDestinationRightForwardDiagonal = function (coord, text) {
+    const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = alphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = alphabet.indexOf(firstCoordPosition[0])
+      const letters = alphabet[number + i]
+      const allCoords = letters + (parseInt(initialCoordNumber) + i)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      if (origBoard[coordA][coordB][0] !== ' ') {
+        return true
+      }
+    }
+  }
+
   // const checkingForPiecesAlongPathToDestinationRightBackwardDiagonal = function (coord, text) {
   //   const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
   //   const endAlphabetGoal = alphabet.indexOf(coord[0])
@@ -461,6 +475,7 @@ const MyGame = (props) => {
   //     }
   //   }
   // }
+
   const gameOverJsx = function () {
     if (gameOver === false) {
       return <div>
@@ -470,8 +485,10 @@ const MyGame = (props) => {
           cancelPath={`#games/${props.match.params.id}`}
         />
         {game.coords}
-        <h4>If Piece should not have been picked up, put it back down and do the same for the enemy team. Now continue the game.</h4>
-        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT! Pawn promotions are only to queen at the moment</h6>
+        <h6>Game will immediate end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
+        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT!</h6>
+        <h6>Pawn promotions are only to queen at the moment</h6>
+        <h6>Cannot Castle or en Passant</h6>
       </div>
     } else {
       if (updated === false) {
