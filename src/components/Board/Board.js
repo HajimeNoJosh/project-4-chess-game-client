@@ -63,7 +63,7 @@ const Board = (props) => {
   // }
 
   return (
-    <div className='game' text={props.text}>
+    <div className='game mt-4' text={props.text}>
       {board}
     </div>
   )

@@ -422,8 +422,14 @@ const MyGame = (props) => {
       const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
       const coordA = coordsForFindingPiece[0]
       const coordB = coordsForFindingPiece[1]
-      if (origBoard[coordA][coordB][0] !== ' ') {
-        return true
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB][0] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
       }
     }
   }
