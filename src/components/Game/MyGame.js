@@ -27,14 +27,15 @@ const MyGame = (props) => {
     ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1']
   ]
   const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  const reverseAlphabet = ['H', 'G', 'F', 'E', 'D', 'C', 'B', 'A']
   // const [updated, setUpdated] = useState(false)
   const [game, setGame] = useState({ coords: [] })
   // const [currCoord, setCurrCoord] = useState('')
-  const [initialCoord, setInitialCoord] = useState('')
-  const [initialCoordText, setInitialCoordText] = useState('')
-  const [destinationCoord, setDestinationCoord] = useState('')
-  const [initialCoordTextLetter, setInitialCoordTextLetter] = useState('')
-  const [initialCoordNumber, setInitialCoordNumber] = useState('')
+  const [initialCoord, setInitialCoord] = useState(' ')
+  const [initialCoordText, setInitialCoordText] = useState(' ')
+  const [destinationCoord, setDestinationCoord] = useState(' ')
+  const [initialCoordTextLetter, setInitialCoordTextLetter] = useState(' ')
+  const [initialCoordNumber, setInitialCoordNumber] = useState(' ')
   const [turn, setTurn] = useState(1)
   const [playerOne, setPlayerOne] = useState(true)
   const [player, setPlayer] = useState('W')
@@ -64,7 +65,7 @@ const MyGame = (props) => {
 
   useEffect(() => {
     if (destinationCoord.length > 0) {
-      setDestinationCoord('')
+      setDestinationCoord(' ')
     }
   }, [destinationCoord])
 
@@ -135,12 +136,12 @@ const MyGame = (props) => {
       setInitialCoordText(' ')
     } else {
       const aWord = getCoordForOrigBoard(coord, text)
-      // console.log('aWord', aWord)
+      // // // console.log('aWord', aWord)
       const copyOrigBoard = origBoard
       copyOrigBoard[aWord[0]][aWord[1]] = ' '
       setOrigBoard(copyOrigBoard)
       const bWord = getSecondCoordForOrigBoard(coord)
-      // console.log('bWord', bWord)
+      // // // console.log('bWord', bWord)
       const copyOrigBoardDesination = origBoard
       copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
       setOrigBoard(copyOrigBoardDesination)
@@ -159,24 +160,30 @@ const MyGame = (props) => {
       setGameOver(true)
     }
     if (text === 'WhP') {
-      // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
-      // // console.log(coord[1], 'coord[1]')
-      // // console.log(initialCoordNumber, 'initialCoordNumber')
+      // // // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // // // // console.log(coord[1], 'coord[1]')
+      // // // // console.log(initialCoordNumber, 'initialCoordNumber')
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
       const letterNumberInitial = initialCoordTextLetter + initialCoordNumber
       const numberInital = Math.abs(letterNumberInitial[1] - coord[1])
-      // console.log(coord)
+      // // // console.log(coord)
       const origBoardCoord = getCoordForOrigBoard(coord)
       const firstCoord = origBoardCoord[0]
       const secondCoord = origBoardCoord[1]
-      // console.log(origBoard[firstCoord][secondCoord])
+      if (coord[1] - initialCoordNumber > 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationUp(coord, text)) {
+          return false
+        }
+      }
+      // // // console.log(origBoard[firstCoord][secondCoord])
       if (origBoard[firstCoord][secondCoord] !== ' ' && initialCoordTextLetter === coord[0]) {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'B') {
         setInitialCoord(coord)
-        // console.log(initialCoord, 'initialCoord')
+        // // // console.log(initialCoord, 'initialCoord')
         return true
       } else {
         if (parseInt(coord[1]) === 4 && parseInt(initialCoordNumber) + 2 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
@@ -188,19 +195,25 @@ const MyGame = (props) => {
         }
       }
     } else if (text === 'BlP') {
-      // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
-      // // console.log(coord[1], 'coord[1]')
-      // // console.log(initialCoordNumber, 'initialCoordNumber')
+      // // // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
+      // // // // console.log(coord[1], 'coord[1]')
+      // // // // console.log(initialCoordNumber, 'initialCoordNumber')
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
       const letterNumberInitial = initialCoordTextLetter + initialCoordNumber
       const numberInital = Math.abs(letterNumberInitial[1] - coord[1])
-      // console.log(coord)
+      // // // console.log(coord)
       const origBoardCoord = getCoordForOrigBoard(coord)
       const firstCoord = origBoardCoord[0]
       const secondCoord = origBoardCoord[1]
-      // console.log(origBoard[firstCoord][secondCoord])
+      if (coord[1] - initialCoordNumber < 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationDown(coord, text)) {
+          return false
+        }
+      }
+      // // // console.log(origBoard[firstCoord][secondCoord])
       if (origBoard[firstCoord][secondCoord] !== ' ' && initialCoordTextLetter === coord[0]) {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'W') {
@@ -216,42 +229,71 @@ const MyGame = (props) => {
         }
       }
     } else if (text[2] === 'R') {
-      // // console.log(initialCoordNumber)
+      // // // // console.log(initialCoordNumber)
+      const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+      const endAlphabetGoal = alphabet.indexOf(coord[0])
+      const coordNumber = endAlphabetGoal - beginingAlphabetGoal
+      if (coord[1] - initialCoordNumber > 0) {
+        if (checkingForPiecesAlongPathToDestinationUp(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] - initialCoordNumber < 0) {
+        if (checkingForPiecesAlongPathToDestinationDown(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && coordNumber > 0) {
+        if (checkingForPiecesAlongPathToDestinationRight(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && coordNumber < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeft(coord, text)) {
+          return false
+        }
+      }
+
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
         return true
       } else {
         return false
       }
     } else if (text === 'WhB') {
-      // // console.log(initialCoordNumber)
-      // // console.log(coord)
+      // // // // console.log(initialCoordNumber)
+      // // // // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+
       // if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
       //   return false
       // }
       const whichToUse = endAlphabetGoal - beginingAlphabetGoal
-      if (setInitialCoordNumber > coord[1] && whichToUse > 0) {
+      // // console.log(initialCoordNumber > coord[1])
+      // // console.log(whichToUse < 0)
+      // // console.log(initialCoordNumber)
+      // // console.log(whichToUse)
+      if (initialCoordNumber < coord[1] && whichToUse > 0) {
         if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
           return false
         }
       }
-      // if (setInitialCoordNumber > coord[1] && whichToUse > 0) {
-      //   if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
-      //     return false
-      //   }
-      // }
-      // if (setInitialCoordNumber > coord[1] && whichToUse < 0) {
-      //   if (checkingForPiecesAlongPathToDestinationLeftForwardDiagonal(coord, text)) {
-      //     return false
-      //   }
-      // }
-      // if (setInitialCoordNumber > coord[1] && whichToUse < 0) {
-      //   if (checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal(coord, text)) {
-      //     return false
-      //   }
-      // }
+      if (initialCoordNumber > coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber < coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
@@ -260,11 +302,32 @@ const MyGame = (props) => {
         return false
       }
     } else if (text === 'BlB') {
-      // // console.log(initialCoordNumber)
-      // // console.log(coord)
+      // // // // console.log(initialCoordNumber)
+      // // // // console.log(coord)
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
+      if (initialCoordNumber < coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber < coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
@@ -276,12 +339,55 @@ const MyGame = (props) => {
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
+      if (initialCoordNumber < coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber < coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      // console.log(whichToUse)
+      if (coord[1] - initialCoordNumber > 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationUp(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] - initialCoordNumber < 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationDown(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRight(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeft(coord, text)) {
+          return false
+        }
+      }
+
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
-      }
-      if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+      } else if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
         return true
       } else {
         return false
@@ -290,6 +396,48 @@ const MyGame = (props) => {
       const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
       const endAlphabetGoal = alphabet.indexOf(coord[0])
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+      const whichToUse = endAlphabetGoal - beginingAlphabetGoal
+      if (initialCoordNumber < coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRightBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber < coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftForwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (initialCoordNumber > coord[1] && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] - initialCoordNumber > 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationUp(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] - initialCoordNumber < 0 && whichToUse === 0) {
+        if (checkingForPiecesAlongPathToDestinationDown(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && whichToUse > 0) {
+        if (checkingForPiecesAlongPathToDestinationRight(coord, text)) {
+          return false
+        }
+      }
+      if (coord[1] === initialCoordNumber && whichToUse < 0) {
+        if (checkingForPiecesAlongPathToDestinationLeft(coord, text)) {
+          return false
+        }
+      }
+
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
@@ -361,13 +509,14 @@ const MyGame = (props) => {
   }
 
   const handleClick = (coord, text, squareShade) => {
-    // console.log(coord)
+    // // // console.log(origBoard)
+    // // // console.log(coord)
     if (turn % 2 !== 0) {
       if (text[0] === player) {
-        let newCoords = ''
+        let newCoords = ' '
         setTurn(turn + 1)
         setInitialCoord(coord)
-        // // console.log('destinationCoord', destinationCoord)
+        // // // // console.log('destinationCoord', destinationCoord)
         if (game.coords.length === 0) {
           newCoords = [...game.coords, text + coord]
         } else {
@@ -389,12 +538,12 @@ const MyGame = (props) => {
           setTurn(turn + 1)
         } else {
           setTurn(turn - 1)
-          setInitialCoordText('')
-          setInitialCoordTextLetter('')
-          setInitialCoordNumber('')
-          setInitialSquareShade('')
+          setInitialCoordText(' ')
+          setInitialCoordTextLetter(' ')
+          setInitialCoordNumber(' ')
+          setInitialSquareShade(' ')
         }
-        let newCoords = ''
+        let newCoords = ' '
 
         if (game.coords.length === 0) {
           newCoords = [...game.coords, text + coord]
@@ -414,16 +563,47 @@ const MyGame = (props) => {
     const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
     const endAlphabetGoal = alphabet.indexOf(coord[0])
     const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    // // console.log(coordNumber)
     const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
     for (let i = 1; i < coordNumber + 1; i++) {
       const number = alphabet.indexOf(firstCoordPosition[0])
       const letters = alphabet[number + i]
       const allCoords = letters + (parseInt(initialCoordNumber) + i)
+      // console.log(allCoords)
       const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
       const coordA = coordsForFindingPiece[0]
       const coordB = coordsForFindingPiece[1]
       if (i < coordNumber) {
-        if (origBoard[coordA][coordB][0] !== ' ') {
+        // console.log(572)
+        if (origBoard[coordA][coordB] !== ' ') {
+          // console.log(origBoard[coordA][coordB])
+          // console.log('hi')
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          // console.log('other hi')
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationRightBackwardDiagonal = function (coord, text) {
+    const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = alphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    // // console.log(coordNumber)
+    const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = alphabet.indexOf(firstCoordPosition[0])
+      const letters = alphabet[number + i]
+      const allCoords = letters + (parseInt(initialCoordNumber) - i)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
           return true
         }
       } else {
@@ -434,53 +614,161 @@ const MyGame = (props) => {
     }
   }
 
-  // const checkingForPiecesAlongPathToDestinationRightBackwardDiagonal = function (coord, text) {
-  //   const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-  //   const endAlphabetGoal = alphabet.indexOf(coord[0])
-  //   const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-  //   const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
-  //   const coords = getCoordForOrigBoard(firstCoordPosition)
-  //   for (let i = 1; i < coordNumber; i++) {
-  //     const checkingForPieceColor = origBoard[parseInt(coords[0]) + i][parseInt(coords[1]) + i]
-  //     if (text[0] === checkingForPieceColor[0]) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
-  // }
-  //
-  // const checkingForPiecesAlongPathToDestinationLeftForwardDiagonal = function (coord, text) {
-  //   const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-  //   const endAlphabetGoal = alphabet.indexOf(coord[0])
-  //   const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-  //   const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
-  //   const coords = getCoordForOrigBoard(firstCoordPosition)
-  //   for (let i = 1; i < coordNumber; i++) {
-  //     const checkingForPieceColor = origBoard[parseInt(coords[0]) - i][parseInt(coords[1]) - i]
-  //     if (text[0] === checkingForPieceColor[0]) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
-  // }
-  //
-  // const checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal = function (coord, text) {
-  //   const beginingAlphabetGoal = alphabet.indexOf(initialCoordTextLetter)
-  //   const endAlphabetGoal = alphabet.indexOf(coord[0])
-  //   const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
-  //   const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
-  //   const coords = getCoordForOrigBoard(firstCoordPosition)
-  //   for (let i = 1; i < coordNumber; i++) {
-  //     const checkingForPieceColor = origBoard[parseInt(coords[0]) + i][parseInt(coords[1]) - i]
-  //     if (text[0] === checkingForPieceColor[0]) {
-  //       return true
-  //     } else {
-  //       return false
-  //     }
-  //   }
-  // }
+  const checkingForPiecesAlongPathToDestinationLeftForwardDiagonal = function (coord, text) {
+    const beginingAlphabetGoal = reverseAlphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = reverseAlphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    // // console.log(coordNumber)
+    const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
+    // // console.log(firstCoordPosition)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = reverseAlphabet.indexOf(firstCoordPosition[0])
+      const letters = reverseAlphabet[number + i]
+      const allCoords = letters + (parseInt(initialCoordNumber) + i)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationLeftBackwardDiagonal = function (coord, text) {
+    const beginingAlphabetGoal = reverseAlphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = reverseAlphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    // // console.log(coordNumber)
+    const firstCoordPosition = initialCoordTextLetter + initialCoordNumber
+    // // console.log(firstCoordPosition)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = reverseAlphabet.indexOf(firstCoordPosition[0])
+      const letters = reverseAlphabet[number + i]
+      const allCoords = letters + (parseInt(initialCoordNumber) - i)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      // // console.log(allCoords)
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationUp = function (coord, text) {
+    // // console.log(coord[1])
+    // // console.log(initialCoordNumber)
+    const coordNumber = Math.abs(coord[1] - initialCoordNumber)
+    // // console.log(coordNumber)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const letters = coord[0]
+      const allCoords = letters + (parseInt(initialCoordNumber) + i)
+      // // console.log(allCoords)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      // // console.log(allCoords)
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationDown = function (coord, text) {
+    // // console.log(coord[1])
+    // // console.log(initialCoordNumber)
+    const coordNumber = Math.abs(coord[1] - initialCoordNumber)
+    // // console.log(coordNumber)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const letters = coord[0]
+      const allCoords = letters + (parseInt(initialCoordNumber) - i)
+      // // console.log(allCoords)
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      // // console.log(allCoords)
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationRight = function (coord, text) {
+    // // console.log(coord[1])
+    // // console.log(initialCoordNumber)
+    const beginingAlphabetGoal = reverseAlphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = reverseAlphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    // console.log(coordNumber)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = alphabet.indexOf(initialCoordTextLetter)
+      const letters = alphabet[number + i]
+      const allCoords = letters + (parseInt(initialCoordNumber))
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      // // console.log(allCoords)
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
+
+  const checkingForPiecesAlongPathToDestinationLeft = function (coord, text) {
+    // // console.log(coord[1])
+    // // console.log(initialCoordNumber)
+    const beginingAlphabetGoal = reverseAlphabet.indexOf(initialCoordTextLetter)
+    const endAlphabetGoal = reverseAlphabet.indexOf(coord[0])
+    const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
+    for (let i = 1; i < coordNumber + 1; i++) {
+      const number = alphabet.indexOf(initialCoordTextLetter)
+      const letters = alphabet[number - i]
+      const allCoords = letters + (parseInt(initialCoordNumber))
+      const coordsForFindingPiece = getCoordForOrigBoard(allCoords)
+      const coordA = coordsForFindingPiece[0]
+      const coordB = coordsForFindingPiece[1]
+      // // console.log(allCoords)
+      if (i < coordNumber) {
+        if (origBoard[coordA][coordB] !== ' ') {
+          return true
+        }
+      } else {
+        if (origBoard[coordA][coordB][0] === text[0]) {
+          return true
+        }
+      }
+    }
+  }
 
   const gameOverJsx = function () {
     if (gameOver === false) {
@@ -491,8 +779,7 @@ const MyGame = (props) => {
           cancelPath={`#games/${props.match.params.id}`}
         />
         {game.coords}
-        <h6>Game will immediate end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
-        <h6>Be honorable. I am aware that pieces can jump other pieces. DON&apos;T DO IT!</h6>
+        <h6>Game will immediatly end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
         <h6>Pawn promotions are only to queen at the moment</h6>
         <h6>Cannot Castle or en Passant</h6>
       </div>
