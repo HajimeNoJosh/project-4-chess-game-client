@@ -29,9 +29,9 @@ on a piece.
 
 When I was able to do this, I began to work on logic for chess, and this is where
 the project currently stands. It is lacking in some of the fundamental rules of chess.
-  1. Pieces can jump other pieces (of course Knight will still able to when I do program this)
-  2. Promotion should be taken into account
-  3. Checks/Checkmate
+  1. Checks
+  2. Castling
+  3. En Passant
 
 I would also like to work on things outside of game logic, including styling and API work
   1. Home screen that explains the rules of chess
