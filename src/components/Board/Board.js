@@ -55,7 +55,7 @@ const Board = (props) => {
         text={text}
         onClick={() => props.onClick(coord, text, squareShade) }> </Square>)
     }
-    board.push(<div key={i}>{squareRows}</div>)
+    board.push(<div key={i}>{squareRows}<div className='alphabet'>{alphabet[i]}</div></div>)
   }
 
   // const changeText = function (coord, text) {
@@ -64,6 +64,7 @@ const Board = (props) => {
 
   return (
     <div className='game mt-4' text={props.text}>
+      <span className='numbers'>8 7 6 5 4 3 2 1</span>
       {board}
     </div>
   )

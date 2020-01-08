@@ -813,12 +813,22 @@ const MyGame = (props) => {
   const gameOverJsx = function () {
     if (gameOver === false) {
       return <div>
-        <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
-        <GameForm
-          handleSubmit={handleSubmit}
-          cancelPath={`#games/${props.match.params.id}`}
-        />
-        {game.coords}
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-6">
+              <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
+              <GameForm
+                handleSubmit={handleSubmit}
+                cancelPath={`#games/${props.match.params.id}`}
+              />
+
+            </div>
+            <div className="col-sm-6">
+              <h1 className='center gamesplayedtitle'>Moves Played</h1>
+              <span className='coords'>{game.coords}</span>
+            </div>
+          </div>
+        </div>
         <h6>Game will immediatly end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
         <h6>Pawn promotions are only to queen at the moment</h6>
         <h6>Cannot Castle or en Passant</h6>

@@ -24,12 +24,11 @@ const Games = props => {
       .then(res => setGames(res.data.games))
       .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
-
   const gamesJsx = games.map(game => {
     if (game.coords.length > 0) {
-      return (<ListGroup.Item key={game._id} as={'a'} href={`#/games/${game._id}`}>
+      return (<a key={game._id} href={`#/games/${game._id}`} className='games'>
         {game.coords}
-      </ListGroup.Item>)
+      </a>)
     }
   })
 
