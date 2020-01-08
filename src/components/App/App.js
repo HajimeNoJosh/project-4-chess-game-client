@@ -12,6 +12,9 @@ import CreateGame from '../Game/CreateGame'
 import MyGame from '../Game/MyGame'
 import Games from '../Game/Games'
 import Game from '../Game/Game'
+import Home from '../HomePage/Home'
+import HomePageOne from '../HomePage/HomePageOne'
+import Howtoplay from '../Howtoplay/Howtoplay'
 
 class App extends Component {
   constructor () {
@@ -53,6 +56,9 @@ class App extends Component {
           <Route path='/sign-in' render={() => (
             <SignIn alert={this.alert} setUser={this.setUser} />
           )} />
+          <Route exact path='/' render={() => (
+            <HomePageOne />
+          )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut alert={this.alert} clearUser={this.clearUser} user={user} />
           )} />
@@ -62,8 +68,14 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword alert={this.alert} user={user} />
           )} />
+          <AuthenticatedRoute user={user} path='/how-to-play' render={() => (
+            <Howtoplay alert={this.alert} user={user} />
+          )} />
           <AuthenticatedRoute user={user} exact path='/games' render={() => (
             <Games alert={this.alert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/home' render={() => (
+            <Home alert={this.alert} user={user} />
           )} />
           <AuthenticatedRoute user={user} path='/games/:id' render={() => (
             <Game alert={this.alert} user={user} />

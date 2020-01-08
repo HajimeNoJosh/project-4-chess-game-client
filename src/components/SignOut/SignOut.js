@@ -16,6 +16,14 @@ class SignOut extends Component {
       }))
       .finally(() => history.push('/'))
       .finally(() => clearUser())
+      .catch(() => {
+        // console.error(error)
+        alert({
+          heading: 'Sign Out Failed',
+          message: 'failed to sign out',
+          variant: 'danger'
+        })
+      })
   }
 
   render () {

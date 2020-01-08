@@ -136,18 +136,15 @@ const MyGame = (props) => {
       setInitialCoordText(' ')
     } else {
       const aWord = getCoordForOrigBoard(coord, text)
-      // // // console.log('aWord', aWord)
       const copyOrigBoard = origBoard
       copyOrigBoard[aWord[0]][aWord[1]] = ' '
       setOrigBoard(copyOrigBoard)
       const bWord = getSecondCoordForOrigBoard(coord)
-      // // // console.log('bWord', bWord)
       const copyOrigBoardDesination = origBoard
       copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
       setOrigBoard(copyOrigBoardDesination)
       setInitialCoordText(' ')
     }
-    // }
   }
   const checkPieceDestination = function (text, coord, squareShade) {
     if (initialCoordTextLetter + initialCoordNumber === coord) {
@@ -156,9 +153,6 @@ const MyGame = (props) => {
     const origBoardCoord = getCoordForOrigBoard(coord)
     const firstCoord = origBoardCoord[0]
     const secondCoord = origBoardCoord[1]
-    if (origBoard[firstCoord][secondCoord][2] === 'K') {
-      setGameOver(true)
-    }
     if (text === 'WhP') {
       // // // // console.log(initialCoordTextLetter, 'initialCoordTextLetter')
       // // // // console.log(coord[1], 'coord[1]')
@@ -173,6 +167,7 @@ const MyGame = (props) => {
       const origBoardCoord = getCoordForOrigBoard(coord)
       const firstCoord = origBoardCoord[0]
       const secondCoord = origBoardCoord[1]
+      // can potentially use > to compare coord[1] and initialCoordNumber
       if (coord[1] - initialCoordNumber > 0 && whichToUse === 0) {
         if (checkingForPiecesAlongPathToDestinationUp(coord, text)) {
           return false
@@ -184,6 +179,9 @@ const MyGame = (props) => {
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'B') {
         setInitialCoord(coord)
         // // // console.log(initialCoord, 'initialCoord')
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         if (parseInt(coord[1]) === 4 && parseInt(initialCoordNumber) + 2 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
@@ -218,6 +216,9 @@ const MyGame = (props) => {
         return false
       } else if (coordNumber === 1 && numberInital === 1 && origBoard[firstCoord][secondCoord][0] === 'W') {
         setInitialCoord(coord)
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         if (parseInt(coord[1]) === 5 && parseInt(initialCoordNumber) - 2 === parseInt(coord[1]) && initialCoordTextLetter === coord[0]) {
@@ -255,6 +256,9 @@ const MyGame = (props) => {
       }
 
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         return false
@@ -295,8 +299,14 @@ const MyGame = (props) => {
         }
       }
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         return false
@@ -329,8 +339,14 @@ const MyGame = (props) => {
         }
       }
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         return false
@@ -384,10 +400,19 @@ const MyGame = (props) => {
       }
 
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         return false
@@ -439,11 +464,20 @@ const MyGame = (props) => {
       }
 
       if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) - parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else if (initialCoordTextLetter !== coord[0] && parseInt(coord[1]) === parseInt(initialCoordNumber) + parseInt(coordNumber) && squareShade === initialSquareShade) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       }
       if (initialCoordTextLetter === coord[0] || coord[1] === initialCoordNumber) {
+        if (origBoard[firstCoord][secondCoord][2] === 'K') {
+          setGameOver(true)
+        }
         return true
       } else {
         return false
@@ -477,12 +511,18 @@ const MyGame = (props) => {
       const coordNumber = Math.abs(endAlphabetGoal - beginingAlphabetGoal)
       if (coordNumber === 2) {
         if (parseInt(coord[1]) === parseInt(initialCoordNumber) - 1 || parseInt(coord[1]) === parseInt(initialCoordNumber) + 1) {
+          if (origBoard[firstCoord][secondCoord][2] === 'K') {
+            setGameOver(true)
+          }
           return true
         } else {
           return false
         }
       } else if (coordNumber === 1) {
         if (parseInt(coord[1]) === parseInt(initialCoordNumber) - 2 || parseInt(coord[1]) === parseInt(initialCoordNumber) + 2) {
+          if (origBoard[firstCoord][secondCoord][2] === 'K') {
+            setGameOver(true)
+          }
           return true
         } else {
           return false

@@ -42,7 +42,7 @@ const Game = (props) => {
 
   if (deleted) {
     return <Redirect to={
-      { pathname: '/games', state: { msg: 'Game succesfully deleted!' } }
+      { pathname: '/home', state: { msg: 'Game succesfully deleted!' } }
     } />
   }
 

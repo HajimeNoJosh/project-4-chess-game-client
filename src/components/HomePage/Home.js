@@ -4,12 +4,9 @@ import apiUrl from '../../apiConfig'
 import messages from '../AutoDismissAlert/messages'
 // import { Link } from 'react-router-dom'
 import ListGroup from 'react-bootstrap/ListGroup'
-import { withRouter } from 'react-router-dom'
 
-const Games = props => {
+const Home = props => {
   const [games, setGames] = useState([])
-  // const userId = props.user._id
-
   useEffect(() => {
     axios({
       url: `${apiUrl}/games`,
@@ -27,19 +24,34 @@ const Games = props => {
 
   const gamesJsx = games.map(game => {
     if (game.coords.length > 0) {
-      return (<ListGroup.Item key={game._id} as={'a'} href={`#/games/${game._id}`}>
+      return (<a key={game._id} href={`#/games/${game._id}`} className='games'>
         {game.coords}
-      </ListGroup.Item>)
+      </a>)
     }
   })
 
   return (
     <div>
-      <ListGroup>
-        {gamesJsx}
-      </ListGroup>
+      <h4 className='center'>Welcome, {props.user.email}</h4>
+
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-6">
+            <h1 className='center chesstitle'> Chess </h1>
+
+            <a href="#create-game" className='center button'>Play</a>
+            <a href="#how-to-play" className='center button'>How To Play</a>
+          </div>
+          <div className="col-sm-6">
+            <h1 className='center gamesplayedtitle'>Games Played</h1>
+            <ListGroup>
+              {gamesJsx}
+            </ListGroup>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default withRouter(Games)
+export default Home

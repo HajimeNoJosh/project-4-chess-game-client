@@ -1,5 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
 
+body {
+  background-color: #070606;
+  color: white;
+}
+
 .light-square {
   background-color: rgb(210,180,140);
 }
@@ -17,6 +22,45 @@
   line-height: 50px;
 }
 
+.games {
+  background-color: white;
+  text-align: center;
+  margin: auto;
+  width: 100%;
+  margin-top: 1em;
+  padding: 10px;
+  color: black;
+  font-size: 25px;
+}
+
+.games:hover {
+    color: black;
+    background-color: gray;
+  }
+
+.squaretable {
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+}
+
+.addSpace {
+  margin-left: 20px;
+}
+
+.overall {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+tbody {
+  border: 1px solid white;
+  background-color: #817F7F;
+}
+
 .game {
   display: flex;
   flex-direction: row;
@@ -26,6 +70,13 @@
 .row {
   display: flex;
   justify-content: center;
+}
+
+.center {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .piece {
@@ -41,17 +92,14 @@
 }
 
 .BlR {
-
   background-image: url('./images/BlR.png');
 }
 
 .WhP {
-
   background-image: url('./images/WhP.png');
 }
 
 .BlP {
-
   background-image: url('./images/BlP.png');
 }
 
@@ -87,6 +135,49 @@
   background-image: url('./images/BlN.png');
 }
 
+.backgroundNav {
+  background-color: #070606;
+}
+
 .clickMe {
   border-bottom: 1px solid white;
+  color: white;
+  position: absolute;
+  left: 40px;
+  @media (max-width: 767px) {
+      position: static;
+  }
+}
+
+.button {
+  background-color: white;
+  text-align: center;
+  margin: auto;
+  width: 35%;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  border-radius: 25px;
+  padding: 10px;
+  color: black;
+  font-size: 25px;
+}
+
+.button:hover {
+    color: black;
+    background-color: gray;
+  }
+
+  .chesstitle {
+    font-size: 120px;
+  }
+
+  .gamesplayedtitle {
+    font-size: 90;
+  }
+
+
+.centerHomePageOne {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
