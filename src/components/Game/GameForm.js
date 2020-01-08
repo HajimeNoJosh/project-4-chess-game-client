@@ -6,9 +6,8 @@ const GameForm = (props) => {
   return (
     <div className="row">
       <div>
-        <h2>Add A Move</h2>
         <Form onSubmit={handleSubmit}>
-          <button type="submit" variant="primary" className='centerbutton'>Submit</button>
+          <button type="submit" variant="primary" className='centerbutton'>Submit Your Moves</button>
         </Form>
       </div>
     </div>

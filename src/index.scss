@@ -15,8 +15,8 @@ body {
 
 .square {
   border: 1px solid white;
-  height: 50px;
-  width: 50px;
+  height: 62px;
+  width: 62px;
   text-align: center;
   vertical-align: middle;
   line-height: 50px;
@@ -51,10 +51,25 @@ button:hover {
   color: white;
   display: flex;
   justify-content: center;
-  padding-left: 100px;
+  padding-left: 65px;
   padding-right: 100px;
   font-size: 25px;
+  height: 50px;
+  width: 50px;
+  padding-top: 13px;
+  margin-left: 26%;
+}
 
+.alignRight {
+ position: relative;
+ left: 134px;
+ bottom: 50px;
+}
+
+.coordtable{
+  background-color: #2f2f2f;
+  overflow:scroll;
+  height: 500px;
 }
 .centerbutton {
   background-color: white;
@@ -67,6 +82,15 @@ button:hover {
   font-size: 25px;
 }
 
+.turn {
+  margin-left: 13%;
+  font-size: 20px;
+}
+
+.alignBoard {
+  margin-top: .75rem;
+}
+
 .cancel {
   background-color: red;
   color: black;
@@ -75,6 +99,11 @@ button:hover {
 .cancel:hover {
     color: black;
     background-color: blue;
+  }
+
+  .heightGames {
+    overflow:scroll;
+    height: 500px;
   }
 
 .squaretable {
@@ -122,6 +151,13 @@ tbody {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background-size: 3.75rem;
+  background-repeat: no-repeat;
+}
+.piece2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   background-size: 3rem;
   background-repeat: no-repeat;
 }
@@ -138,7 +174,7 @@ tbody {
   width: 20px;
   text-align: center;
   vertical-align: middle;
-  line-height: 50px;
+  line-height: 62px;
 }
 
 

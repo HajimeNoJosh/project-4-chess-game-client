@@ -44,7 +44,7 @@ const Home = props => {
           </div>
           <div className="col-sm-6">
             <h1 className='center gamesplayedtitle'>Games Played</h1>
-            <ListGroup>
+            <ListGroup className='heightGames'>
               {gamesJsx}
             </ListGroup>
           </div>

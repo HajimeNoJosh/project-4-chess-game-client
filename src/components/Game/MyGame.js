@@ -3,6 +3,7 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import { withRouter } from 'react-router-dom'
 import GameForm from './GameForm.js'
+import CoordTable from './CoordTable.js'
 import Board from '../Board/Board.js'
 
 const MyGame = (props) => {
@@ -815,7 +816,8 @@ const MyGame = (props) => {
       return <div>
         <div className="container">
           <div className="row">
-            <div className="col-sm-6">
+            <div className="col-xl-6 col-lg-12 col-md-12">
+              <h1 className='center gamesplayedtitle'>Make A Move</h1>
               <Board text={props.text} squareShade={props.squareShade} onClick={handleClick} origBoard={origBoard} />
               <GameForm
                 handleSubmit={handleSubmit}
@@ -823,9 +825,9 @@ const MyGame = (props) => {
               />
 
             </div>
-            <div className="col-sm-6">
+            <div className="col-xl-6 col-lg-12 col-md-12">
               <h1 className='center gamesplayedtitle'>Moves Played</h1>
-              <span className='coords'>{game.coords}</span>
+              <CoordTable coords={game.coords} />
             </div>
           </div>
         </div>

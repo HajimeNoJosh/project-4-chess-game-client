@@ -16,8 +16,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhQ'></span>
-                <span className='squaretable piece BlQ'> </span>
+                <span className='squaretable piece2 WhQ'></span>
+                <span className='squaretable piece2 BlQ'> </span>
               </div>
             </td>
             <td>Queen (9)</td>
@@ -25,8 +25,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhR'></span>
-                <span className='squaretable piece BlR'> </span>
+                <span className='squaretable piece2 WhR'></span>
+                <span className='squaretable piece2 BlR'> </span>
               </div>
             </td>
             <td>Rook (5)</td>
@@ -34,8 +34,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhB'></span>
-                <span className='squaretable piece BlB'> </span>
+                <span className='squaretable piece2 WhB'></span>
+                <span className='squaretable piece2 BlB'> </span>
               </div>
             </td>
             <td>Bishop (3)</td>
@@ -43,8 +43,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhN'></span>
-                <span className='squaretable piece BlN'> </span>
+                <span className='squaretable piece2 WhN'></span>
+                <span className='squaretable piece2 BlN'> </span>
               </div>
             </td>
             <td>Knight (3)</td>
@@ -52,8 +52,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhP'></span>
-                <span className='squaretable piece BlP'> </span>
+                <span className='squaretable piece2 WhP'></span>
+                <span className='squaretable piece2 BlP'> </span>
               </div>
             </td>
             <td>Pawn (1)</td>
@@ -61,8 +61,8 @@ const Howtoplay = props => {
           <tr>
             <td scope='row'>
               <div className='overall'>
-                <span className='squaretable piece WhK'></span>
-                <span className='squaretable piece BlK'> </span>
+                <span className='squaretable piece2 WhK'></span>
+                <span className='squaretable piece2 BlK'> </span>
               </div>
             </td>
             <td>King (The Game)</td>
