@@ -68,15 +68,14 @@ button:hover {
 
 .coordtable{
   background-color: #2f2f2f;
-  overflow:scroll;
+  overflow: auto;
   height: 500px;
 }
+
 .centerbutton {
   background-color: white;
   text-align: center;
-  margin: auto;
   width: 100%;
-  margin-bottom: 2em;
   padding: 10px;
   color: black;
   font-size: 25px;

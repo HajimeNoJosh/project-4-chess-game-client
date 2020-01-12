@@ -69,6 +69,9 @@ const Howtoplay = props => {
           </tr>
         </tbody>
       </table>
+      <h6>Game will immediatly end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
+      <h6>Pawn promotions are only to queen at the moment</h6>
+      <h6>Cannot Castle or en Passant</h6>
     </span>
   )
 }

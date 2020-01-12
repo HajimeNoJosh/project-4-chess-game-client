@@ -823,7 +823,6 @@ const MyGame = (props) => {
                 handleSubmit={handleSubmit}
                 cancelPath={`#games/${props.match.params.id}`}
               />
-
             </div>
             <div className="col-xl-6 col-lg-12 col-md-12">
               <h1 className='center gamesplayedtitle'>Moves Played</h1>
@@ -831,9 +830,6 @@ const MyGame = (props) => {
             </div>
           </div>
         </div>
-        <h6>Game will immediatly end if King is taken, and will send update to API, otherwise make sure to submit before quitting the game </h6>
-        <h6>Pawn promotions are only to queen at the moment</h6>
-        <h6>Cannot Castle or en Passant</h6>
       </div>
     } else {
       if (updated === false) {
