@@ -1,16 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { } from 'react'
 
 const CoordTable = (props) => {
   const coords = []
   let turn = 1
   let color = 'black'
-  const coordsEndRef = useRef(null)
-
-  const scrollToBottom = () => {
-    coordsEndRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  useEffect(scrollToBottom, [coords])
 
   for (let i = 0; i < props.coords.length; i++) {
     if (i === 0) {
@@ -54,7 +47,7 @@ const CoordTable = (props) => {
   return (
     <div className='coordtable'>
 
-      {coords}<div ref={coordsEndRef}/>
+      {coords}
     </div>
   )
 }
