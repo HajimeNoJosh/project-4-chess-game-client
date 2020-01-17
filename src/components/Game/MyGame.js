@@ -491,6 +491,8 @@ const MyGame = (props) => {
       if (coordNumber === 1 || coordNumber === 0) {
         if (Math.abs(coord[1] - initialCoordNumber) === 1 || Math.abs(coord[1] - initialCoordNumber) === 0) {
           return true
+        } else {
+          console.log(coord)
         }
       }
       // if (parseInt(initialCoordNumber) + 1 === parseInt(coord[1]) || parseInt(initialCoordNumber) - 1 === parseInt(coord[1])) {
@@ -828,7 +830,10 @@ const MyGame = (props) => {
             <div className="col-xl-6 col-lg-12 col-md-12">
               <h1 className='center gamesplayedtitle'>Moves Played</h1>
               <CoordTable coords={game.coords} />
+              <div className={'box ' + player}>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
