@@ -1,15 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { } from 'react'
 
 const CoordTable = (props) => {
   const coords = []
   let turn = 1
-  const coordsEndRef = useRef(null)
-
-  const scrollToBottom = () => {
-    coordsEndRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  useEffect(scrollToBottom, [coords])
 
   for (let i = 0; i < props.coords.length; i++) {
     if (i % 2 !== 0) {
@@ -33,9 +26,7 @@ const CoordTable = (props) => {
               className={'coords2 piece2 ' + initialPiece}> {initialCoord}X{destination}</span></span>)
       } else {
         const destination = props.coords[i].slice(3, props.coords[i].length)
-        console.log(destination)
         let initialCoord = props.coords[i - 1].slice(5, 6)
-        console.log(initialCoord)
         let initialPiece
         if (turn === 1) {
           initialPiece = props.coords[i - 1].slice(0, 3)
@@ -75,7 +66,7 @@ const CoordTable = (props) => {
   }
   return (
     <div className='coordtable'>
-      {coords}<div ref={coordsEndRef}/>
+      {coords}
     </div>
   )
 }

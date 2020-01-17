@@ -34,7 +34,7 @@ const MyGame = (props) => {
   // const [currCoord, setCurrCoord] = useState('')
   const [initialCoord, setInitialCoord] = useState(' ')
   const [initialCoordText, setInitialCoordText] = useState(' ')
-  const [destinationCoord, setDestinationCoord] = useState(' ')
+  // const [destinationCoord, setDestinationCoord] = useState(' ')
   const [initialCoordTextLetter, setInitialCoordTextLetter] = useState(' ')
   const [initialCoordNumber, setInitialCoordNumber] = useState(' ')
   const [turn, setTurn] = useState(1)
@@ -59,16 +59,16 @@ const MyGame = (props) => {
       .catch(() => props.alert({ heading: 'Could not get game', message: 'Unfortunate circumstances', variant: 'danger' }))
   }, [])
 
-  useEffect(() => {
-    if (initialCoord.length > 0) {
-    }
-  }, [initialCoord])
+  // useEffect(() => {
+  //   if (initialCoord.length > 0) {
+  //   }
+  // }, [initialCoord])
 
-  useEffect(() => {
-    if (destinationCoord.length > 0) {
-      setDestinationCoord(' ')
-    }
-  }, [destinationCoord])
+  // useEffect(() => {
+  //   if (destinationCoord.length > 0) {
+  //     setDestinationCoord(' ')
+  //   }
+  // }, [destinationCoord])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -139,11 +139,12 @@ const MyGame = (props) => {
       const aWord = getCoordForOrigBoard(coord, text)
       const copyOrigBoard = origBoard
       copyOrigBoard[aWord[0]][aWord[1]] = ' '
+      // Active piece
       setOrigBoard(copyOrigBoard)
-      const bWord = getSecondCoordForOrigBoard(coord)
-      const copyOrigBoardDesination = origBoard
-      copyOrigBoardDesination[bWord[0]][bWord[1]] = initialCoordText
-      setOrigBoard(copyOrigBoardDesination)
+      // const bWord = getSecondCoordForOrigBoard(coord)
+      // const copyOrigBoardDesination = origBoard
+      copyOrigBoard[aWord[0]][aWord[1]] = initialCoordText
+      setOrigBoard(copyOrigBoard)
       setInitialCoordText(' ')
     }
   }
@@ -572,7 +573,7 @@ const MyGame = (props) => {
       }
     } else if (!checkingForSameColorPieces(text)) {
       if (checkPieceDestination(initialCoordText, coord, squareShade)) {
-        setDestinationCoord(coord)
+        // setDestinationCoord(coord)
 
         if (initialCoord !== coord) {
           changeTurn()
