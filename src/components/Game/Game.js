@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { withRouter, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import apiUrl from '../../apiConfig'
+import Board from '../Board/Board.js'
+import CoordTable from './CoordTable.js'
 
 const Game = (props) => {
   const [game, setGame] = useState(null)
@@ -49,9 +51,24 @@ const Game = (props) => {
   if (!game) {
     return <p>Loading...</p>
   }
+
+  const handleClick = () => {
+  }
+
   return (
     <div>
-      <h4>{game.coords}</h4>
+      <div className="container">
+        <div className="row">
+          <div className="col-xl-6 col-lg-12 col-md-12">
+            <h1 className='center gamesplayedtitle'>State of the Board</h1>
+            <Board onClick={handleClick} origBoard={game.origBoard} />
+          </div>
+          <div className="col-xl-6 col-lg-12 col-md-12">
+            <h1 className='center gamesplayedtitle'>Moves Played</h1>
+            <CoordTable coords={game.coords} />
+          </div>
+        </div>
+      </div>
       {userId === game.owner && <button className='btn btn-danger' onClick={destroy}> Delete </button>}
     </div>
   )

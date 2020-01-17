@@ -5,10 +5,15 @@ import messages from '../AutoDismissAlert/messages'
 // import { Link } from 'react-router-dom'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { withRouter } from 'react-router-dom'
+import Board from '../Board/Board.js'
+import CoordTable from './CoordTable.js'
 
 const Games = props => {
   const [games, setGames] = useState([])
   // const userId = props.user._id
+
+  const handleClick = () => {
+  }
 
   useEffect(() => {
     axios({
@@ -26,9 +31,21 @@ const Games = props => {
   }, [])
   const gamesJsx = games.map(game => {
     if (game.coords.length > 0) {
-      return (<a key={game._id} href={`#/games/${game._id}`} className='games'>
-        {game.coords}
-      </a>)
+      return (
+        <div key={game._id}>
+          <div className="container">
+            <div className="row">
+              <div className="col-xl-6 col-lg-12 col-md-12">
+                <a className='center gamesplayedtitle' href={`#/games/${game._id}`}><h1>Moves Played</h1></a>
+                <Board onClick={handleClick} origBoard={game.origBoard} />
+              </div>
+              <div className="col-xl-6 col-lg-12 col-md-12">
+                <h1 className='center gamesplayedtitle'>Coords</h1>
+                <CoordTable coords={game.coords} />
+              </div>
+            </div>
+          </div>
+        </div>)
     }
   })
 
