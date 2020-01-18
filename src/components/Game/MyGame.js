@@ -614,9 +614,8 @@ const MyGame = (props) => {
           setInitialCoordTextLetter(coord[0])
           setInitialCoordNumber(coord[1])
           setInitialSquareShade(squareShade)
-          setCheck(false)
         } else {
-          console.log('You in check')
+          setStatus('You in check')
         }
       }
     } else if (!checkingForSameColorPieces(text)) {
@@ -625,6 +624,7 @@ const MyGame = (props) => {
 
         if (initialCoord !== coord) {
           changeTurn()
+          setCheck(false)
           setTurn(turn + 1)
         } else {
           setTurn(turn - 1)
@@ -643,6 +643,9 @@ const MyGame = (props) => {
         if (initialCoord === coord) {
           newCoords.pop()
           newCoords.pop()
+        }
+        if (initialCoord === coord && text[2] === 'K') {
+          setCheck(true)
         }
         checkingForCheck(coord, text)
         setGame(game => ({ ...game, coords: newCoords, origBoard: origBoard }))
@@ -784,6 +787,7 @@ const MyGame = (props) => {
   }
 
   const checkingForCheck = function (coord, text) {
+    // If King is picked up and put back on same coord it breaks!
     if (initialCoordText === 'WhP') {
       if (parseInt(coord[1]) === 8) {
       } else {
