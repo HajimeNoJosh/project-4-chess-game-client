@@ -787,7 +787,6 @@ const MyGame = (props) => {
   }
 
   const checkingForCheck = function (coord, text) {
-    // If King is picked up and put back on same coord it breaks!
     if (initialCoordText === 'WhP') {
       if (parseInt(coord[1]) === 8) {
       } else {
@@ -840,6 +839,53 @@ const MyGame = (props) => {
               }
             }
           }
+        }
+      }
+    } else if (initialCoordText[2] === 'N') {
+      for (let i = 0; i < alphabet.length; i++) {
+        if (alphabet[i] === coord[0]) {
+          const allCoords = []
+          const coordNumberToCheckPlusOne = (parseInt(coord[1]) + 1)
+          const coordNumberToCheckPlusTwo = (parseInt(coord[1]) + 2)
+          const coordNumberToCheckMinueTwo = (parseInt(coord[1]) - 2)
+          const coordNumberToCheckMinusOne = (parseInt(coord[1]) - 1)
+          allCoords.push(alphabet[i - 1] + coordNumberToCheckPlusTwo)
+          allCoords.push(alphabet[i - 1] + coordNumberToCheckMinueTwo)
+          allCoords.push(alphabet[i + 1] + coordNumberToCheckPlusTwo)
+          allCoords.push(alphabet[i + 1] + coordNumberToCheckMinueTwo)
+          allCoords.push(alphabet[i - 2] + coordNumberToCheckPlusOne)
+          allCoords.push(alphabet[i - 2] + coordNumberToCheckMinusOne)
+          allCoords.push(alphabet[i + 2] + coordNumberToCheckPlusOne)
+          allCoords.push(alphabet[i + 2] + coordNumberToCheckMinusOne)
+          for (let i = 0; i < allCoords.length; i++) {
+            if (allCoords[i] && allCoords[i][1] > 0 && allCoords[i][1] < 9) {
+              const coordsForFindingPiece = getCoordForOrigBoard(allCoords[i])
+              const coordA = coordsForFindingPiece[0]
+              const coordB = coordsForFindingPiece[1]
+              if (origBoard[coordA][coordB][2] === 'K') {
+                setCheck(true)
+              }
+            }
+          }
+        }
+      }
+    } else if (initialCoordText === 'WhR') {
+      const allCoords = []
+      for (let i = parseInt(coord[1]) + 1; i <= 8; i++) {
+        allCoords.push(coord[0] + i)
+      }
+      console.log(allCoords)
+      for (let j = 0; j < allCoords.length;) {
+        const coordsForFindingPiece = getCoordForOrigBoard(allCoords[j])
+        const coordA = coordsForFindingPiece[0]
+        const coordB = coordsForFindingPiece[1]
+        if (origBoard[coordA][coordB] === ' ') {
+          j++
+        } else if (origBoard[coordA][coordB][2] === 'K') {
+          setCheck(true)
+          return
+        } else if (origBoard[coordA][coordB][0] === 'W' || origBoard[coordA][coordB][0] === 'B') {
+          return
         }
       }
     }
