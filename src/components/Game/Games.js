@@ -29,6 +29,11 @@ const Games = props => {
       .then(res => setGames(res.data.games))
       .catch(() => props.alert({ heading: 'Nah...', message: 'That didn\'t work', variant: 'danger' }))
   }, [])
+
+  if (!games) {
+    return <p>Loading...</p>
+  }
+
   const gamesJsx = games.map(game => {
     if (game.coords.length > 0) {
       return (
